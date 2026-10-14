@@ -23,12 +23,12 @@ MEMORY.md
 *.xlsx
 *.docx
 *.pdf
-/Dashboard Proyecto/data_structure_analysis.json
-/Dashboard Proyecto/resumen_analisis.md
+/dashboard-proyecto/data_structure_analysis.json
+/dashboard-proyecto/resumen_analisis.md
 # Utilidades históricas con identidades, contraseñas de ejemplo y cambios puntuales
-/Dashboard Proyecto/dashboard_proyectos/nextjs_space/scripts/*
-!/Dashboard Proyecto/dashboard_proyectos/nextjs_space/scripts/restore-local.cjs
-/Dashboard Proyecto/dashboard_proyectos/nextjs_space/public/preview-dashboard-ma.html
+/dashboard-proyecto/dashboard_proyectos/nextjs_space/scripts/*
+!/dashboard-proyecto/dashboard_proyectos/nextjs_space/scripts/restore-local.cjs
+/dashboard-proyecto/dashboard_proyectos/nextjs_space/public/preview-dashboard-ma.html
 
 .next-vercel-check/
 .vercel/

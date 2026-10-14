@@ -3,7 +3,7 @@ const path = require('node:path');
 const { createRequire } = require('node:module');
 
 const root = path.resolve(__dirname, '..');
-const app = path.join(root, 'Dashboard Proyecto/dashboard_proyectos/nextjs_space');
+const app = path.join(root, 'dashboard-proyecto/dashboard_proyectos/nextjs_space');
 const appRequire = createRequire(path.join(app, 'package.json'));
 const base = process.env.GESTION_BASE_URL || 'http://127.0.0.1:3040';
 if (!['127.0.0.1', 'localhost'].includes(new URL(base).hostname) || new URL(base).port !== '3040') {

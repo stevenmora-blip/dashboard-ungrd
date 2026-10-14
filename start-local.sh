@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"
-APP="$ROOT/Dashboard Proyecto/dashboard_proyectos/nextjs_space"
+APP="$ROOT/dashboard-proyecto/dashboard_proyectos/nextjs_space"
 PG_CTL="$(command -v pg_ctl || true)"
 if [[ -z "$PG_CTL" && -x /opt/homebrew/bin/pg_ctl ]]; then PG_CTL=/opt/homebrew/bin/pg_ctl; fi
 if [[ -z "$PG_CTL" ]]; then echo 'No se encontró pg_ctl de PostgreSQL.'; exit 1; fi

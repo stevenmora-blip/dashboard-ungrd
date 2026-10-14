@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { api, ApiError } from '../Dashboard Proyecto/dashboard_proyectos/nextjs_space/components/gestion/api';
+import { api, ApiError } from '../dashboard-proyecto/dashboard_proyectos/nextjs_space/components/gestion/api';
 
 test('los errores de validación del servidor conservan su estado y mensajes', async () => {
   const originalFetch = globalThis.fetch;

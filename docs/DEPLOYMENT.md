@@ -1,6 +1,6 @@
 # Despliegue del Dashboard
 
-Vercel: equipo `stevenmora-blips-projects`, proyecto `dashboard-ungrd`, repositorio `stevenmora-blip/dashboard-ungrd`, rama `main`, root `Dashboard Proyecto/dashboard_proyectos/nextjs_space`, framework Next.js. El build de package.json genera Prisma y ejecuta next build; pnpm10.30.1 fijado.
+Vercel: equipo `stevenmora-blips-projects`, proyecto `dashboard-ungrd`, repositorio `stevenmora-blip/dashboard-ungrd`, rama `main`, root `dashboard-proyecto/dashboard_proyectos/nextjs_space`, framework Next.js. El build de package.json genera Prisma y ejecuta next build; pnpm10.30.1 fijado.
 
 Supabase elegido: `UNGRD_DASHBOARD`, schema privado `dashboard`. Vercel requiere DATABASE_URL por Transaction Pooler (6543), con `schema=dashboard`, `pgbouncer=true`, `connection_limit=1` y `sslmode=require`. El Session Pooler (5432) se usa sólo para preparar schema y revisar datos, no como conexión habitual serverless. NEXTAUTH_SECRET es exclusivo de producción y NEXTAUTH_URL debe coincidir con el dominio confirmado por Vercel. Ninguno de esos valores secretos se versiona.
 

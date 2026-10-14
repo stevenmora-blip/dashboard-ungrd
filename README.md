@@ -2,11 +2,11 @@
 
 Gestión de proyectos y tareas, recepción de requerimientos mediante tickets, reuniones y decisiones trazables, versiones y cambios de alcance, esfuerzo real y aporte institucional con evidencia y reconocimiento del equipo productor.
 
-Aplicación: `Dashboard Proyecto/dashboard_proyectos/nextjs_space`. Stack: Next.js 15, TypeScript, Prisma 6 y PostgreSQL.
+Aplicación: `dashboard-proyecto/dashboard_proyectos/nextjs_space`. Stack: Next.js 15, TypeScript, Prisma 6 y PostgreSQL.
 
 - [Guía local y verificación](README-LOCAL.md)
 - [Estado y pendientes](STATUS.md)
-- [Contrato de la API de gestión](Dashboard%20Proyecto/dashboard_proyectos/nextjs_space/docs/GESTION-API.md)
+- [Contrato de la API de gestión](dashboard-proyecto/dashboard_proyectos/nextjs_space/docs/GESTION-API.md)
 
 ## Configuración
 

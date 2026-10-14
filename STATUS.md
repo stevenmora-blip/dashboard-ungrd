@@ -63,6 +63,8 @@ El usuario autorizó despliegue en Vercel y eligió explícitamente la base Supa
 - Next.js actualizado de14.2.28 a15.5.28 según aviso de seguridad oficial de Vercel; rutas y página de detalle adaptadas a params asíncronos. Build genera Prisma antes de compilar.
 - Registro heredado `/api/signup` cerrado a visitantes/usuarios comunes; exige ADMIN activo releído de DB. Cuota pública de30recepciones/minuto compartida mediante PostgreSQL, con rollback junto con el ticket.
 - Build de producción, 15 pruebas unitarias y7 HTTP/flujo/regresiones, TypeScript y lint de módulos nuevos pasan. Prueba de cuota incluye contención paralela en2clientes.
-- Proyecto Vercel previsto: `dashboard-ungrd`, equipo `stevenmora-blips-projects`, root `Dashboard Proyecto/dashboard_proyectos/nextjs_space`. Conexión y publicación pendientes de completar en la sesión de Chrome. No activar Neon ni planes pagos.
+- Proyecto Vercel previsto: `dashboard-ungrd`, equipo `stevenmora-blips-projects`, root `dashboard-proyecto/dashboard_proyectos/nextjs_space`. Conexión y publicación pendientes de completar en la sesión de Chrome. No activar Neon ni planes pagos.
 
 Primer despliegue Vercel compiló pero falló en empaquetado por la raíz padre heredada de outputFileTracingRoot. Se retiró el override: build local nuevo aprobado y manifiesto con raíz de aplicación/relativeAppDir vacío. Dominio confirmado por Vercel: `https://dashboard-ungrd-sand.vercel.app`; NEXTAUTH_URL ajustado al dominio real. Segundo despliegue pendiente de verificar.
+
+Segundo despliegue superó el empaquetado y fue rechazado por el espacio de la carpeta extraída: nombre de función `Dashboard Proyecto/.../___next_launcher.cjs`. Se normalizó a `dashboard-proyecto` sin alterar contenido funcional ni perder respaldos, se actualizaron nueve referencias de rutas y Root Directory en Vercel. Build de producción y22 pruebas vuelven a pasar en el directorio nuevo. Publicación corregida pendiente de verificar.

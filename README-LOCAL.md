@@ -18,11 +18,11 @@ El comando inicia PostgreSQL si está detenido y ejecuta Next.js en primer plano
 ./stop-database-local.sh
 ```
 
-Requisitos instalados y comprobados: Node.js 24.13.0, pnpm 10.30.1 y PostgreSQL 14.21. La configuración privada está en `Dashboard Proyecto/dashboard_proyectos/nextjs_space/.env`.
+Requisitos instalados y comprobados: Node.js 24.13.0, pnpm 10.30.1 y PostgreSQL 14.21. La configuración privada está en `dashboard-proyecto/dashboard_proyectos/nextjs_space/.env`.
 
 ## Datos y aislamiento
 
-- Aplicación: `Dashboard Proyecto/dashboard_proyectos/nextjs_space`.
+- Aplicación: `dashboard-proyecto/dashboard_proyectos/nextjs_space`.
 - Base: `dashboard_ungrd`, usuario `dashboard_local`, en `127.0.0.1:55432`.
 - Instancia PostgreSQL propia: `.local/postgres`; log: `.local/postgres.log`.
 - Next.js escucha exclusivamente en loopback, puerto 3040.
@@ -40,13 +40,13 @@ Verificados: inicio de sesión del administrador, dashboard con estadísticas y 
 
 Este arranque usa el servidor de desarrollo de Next.js. La preparación de Vercel actualiza a Next.js 15.5.28 y pasó una compilación de producción en `.next-vercel-check`.
 
-Se restauraron 84 registros de adjuntos, pero la aplicación original descarga y sube archivos mediante S3. El ZIP no aporta la configuración ni las credenciales de ese servicio: el listado de archivos puede fallar (HTTP 500) y las descargas/subidas no están habilitadas. Los documentos incluidos en el ZIP permanecen en `Dashboard Proyecto/Uploads` y en los archivos de respaldo. No se configuraron servicios externos ni se enviaron notificaciones.
+Se restauraron 84 registros de adjuntos, pero la aplicación original descarga y sube archivos mediante S3. El ZIP no aporta la configuración ni las credenciales de ese servicio: el listado de archivos puede fallar (HTTP 500) y las descargas/subidas no están habilitadas. Los documentos incluidos en el ZIP permanecen en `dashboard-proyecto/Uploads` y en los archivos de respaldo. No se configuraron servicios externos ni se enviaron notificaciones.
 
 El ZIP no contenía configuración general de ESLint. Se añadieron `eslint.gestion.config.cjs` para gestión y `eslint.config.cjs` para las fuentes completas con las mismas reglas de corrección; ambas revisiones y TypeScript terminan correctamente. El lint general deja una advertencia heredada por una directiva sin uso. Los scripts locales pasan las comprobaciones de sintaxis de Bash y Node.js.
 
 ## Gestión de requerimientos y esfuerzo
 
-Diseño aprobado: `docs/superpowers/specs/2026-10-14-requerimientos-esfuerzo-aporte-design.md`. Plan: `docs/superpowers/plans/2026-10-14-requerimientos-esfuerzo-aporte.md`. Contrato de API: `Dashboard Proyecto/dashboard_proyectos/nextjs_space/docs/GESTION-API.md`.
+Diseño aprobado: `docs/superpowers/specs/2026-10-14-requerimientos-esfuerzo-aporte-design.md`. Plan: `docs/superpowers/plans/2026-10-14-requerimientos-esfuerzo-aporte.md`. Contrato de API: `dashboard-proyecto/dashboard_proyectos/nextjs_space/docs/GESTION-API.md`.
 
 Formulario de recepción: **http://localhost:3040/solicitar**. Bandeja interna: **http://localhost:3040/dashboard/requerimientos**. Esfuerzo: **http://localhost:3040/dashboard/esfuerzo**. Aporte institucional: **http://localhost:3040/dashboard/aporte**. Un envío genera un número de ticket y su fecha de recepción. El formulario no permite consultar datos internos. Copiar esta URL no publica el proyecto: localhost sólo funciona en el computador donde está ejecutándose.
 
@@ -65,7 +65,7 @@ Verificación de los módulos nuevos:
 ```bash
 node --test tests/gestion-http.test.cjs
 node --test tests/gestion-workflow.test.cjs
-cd 'Dashboard Proyecto/dashboard_proyectos/nextjs_space'
+cd 'dashboard-proyecto/dashboard_proyectos/nextjs_space'
 node --import tsx --test tests/gestion-domain.test.ts tests/gestion-area-summary.test.ts ../../../tests/gestion-client.test.ts
 pnpm exec tsc --noEmit
 pnpm exec eslint --config eslint.gestion.config.cjs lib/gestion app/api/gestion app/api/solicitudes components/gestion app/solicitar app/dashboard/requerimientos app/dashboard/esfuerzo app/dashboard/aporte

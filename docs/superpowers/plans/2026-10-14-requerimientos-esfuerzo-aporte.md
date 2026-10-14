@@ -10,7 +10,7 @@
 
 ## Tarea 1 — Datos, dominio y API
 
-**Archivos:** `prisma/schema.prisma`, `lib/gestion/{domain,validation,auth,tickets,resources,impact}.ts`, `app/api/solicitudes/route.ts`, `app/api/gestion/**/route.ts`, `middleware.ts`, `tests/gestion-domain.test.ts` y `docs/GESTION-API.md`, todos relativos a `Dashboard Proyecto/dashboard_proyectos/nextjs_space`.
+**Archivos:** `prisma/schema.prisma`, `lib/gestion/{domain,validation,auth,tickets,resources,impact}.ts`, `app/api/solicitudes/route.ts`, `app/api/gestion/**/route.ts`, `middleware.ts`, `tests/gestion-domain.test.ts` y `docs/GESTION-API.md`, todos relativos a `dashboard-proyecto/dashboard_proyectos/nextjs_space`.
 
 - [x] Respaldar la base: `.local/backups/antes-requerimientos-20261014.dump`.
 - [x] Escribir pruebas primero y confirmar fallos para transiciones inválidas, aprobación no autorizada, porcentajes distintos de 100, mezcla de monedas/unidades y doble conteo institucional.
