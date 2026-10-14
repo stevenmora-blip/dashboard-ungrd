@@ -29,6 +29,7 @@ export default function RequestsPage() {
   const [showSettings, setShowSettings] = useState(false);
   const [copyMessage, setCopyMessage] = useState("");
   const [publicUrl, setPublicUrl] = useState("");
+  const [isLocal, setIsLocal] = useState(false);
   const [filtersReady, setFiltersReady] = useState(false);
   const [filters, setFilters] = useState({
     status: "",
@@ -38,6 +39,7 @@ export default function RequestsPage() {
   });
   useEffect(() => {
     setPublicUrl(`${window.location.origin}/solicitar`);
+    setIsLocal(["localhost", "127.0.0.1", "[::1]"].includes(window.location.hostname));
     const query = new URLSearchParams(window.location.search);
     setShowSettings(query.get("configuracion") === "1");
     setFilters((current) => ({
@@ -171,10 +173,12 @@ export default function RequestsPage() {
           )}
         </div>
       </header>
-      <p className="text-xs text-slate-600">
-        El enlace local sólo funciona en este computador. Compartirlo con otras
-        personas requiere una dirección accesible en servidor o intranet.
-      </p>
+      {isLocal && (
+        <p className="text-xs text-slate-600">
+          El enlace local sólo funciona en este computador. Compartirlo con otras
+          personas requiere una dirección accesible en servidor o intranet.
+        </p>
+      )}
       {copyMessage && <Notice>{copyMessage}</Notice>}
       {catalogError && <Notice error>{catalogError}</Notice>}
       {showSettings && catalogs?.identity.role === "ADMIN" && (
