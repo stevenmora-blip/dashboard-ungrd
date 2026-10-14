@@ -52,3 +52,5 @@ Diseño: `docs/superpowers/specs/2026-10-14-requerimientos-esfuerzo-aporte-desig
 Destino privado: https://github.com/stevenmora-blip/dashboard-ungrd. Creado mediante la sesión del usuario en Chrome por petición explícita. La raíz del proyecto es el repositorio local; aplicación y rutas originales se conservan.
 
 Se excluyen `.local`, `.env`, respaldos, adjuntos, Excel/datos de trabajo, `MEMORY.md`, logs y scripts históricos con credenciales de ejemplo o correcciones puntuales. `.env.example` contiene únicamente campos vacíos y marcadores. La base local permanece aislada; subir el código no despliega el servidor ni restaura datos al clonar.
+
+Publicación verificada: rama `main` sincronizada con `origin/main`; commit inicial de código `c8278b2` comprobado tanto por API como en Chrome. 191 archivos de código/documentación publicados; sin base ni credenciales. Herramienta responsable: Codex.
