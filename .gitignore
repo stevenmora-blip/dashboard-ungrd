@@ -32,3 +32,6 @@ MEMORY.md
 
 .next-vercel-check/
 .vercel/
+
+# Contexto local generado por el acompañante de memoria
+/AGENTS.md
