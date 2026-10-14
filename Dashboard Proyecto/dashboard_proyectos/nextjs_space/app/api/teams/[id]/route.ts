@@ -3,7 +3,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth-options';
 import { prisma } from '@/lib/db';
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params: pendingParams }: { params: Promise<{ id: string }> }) {
+  const params = await pendingParams;
   try {
     const session = await getServerSession(authOptions);
     if (!session || (session.user as any).role !== 'ADMIN') {
@@ -41,7 +42,8 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params: pendingParams }: { params: Promise<{ id: string }> }) {
+  const params = await pendingParams;
   try {
     const session = await getServerSession(authOptions);
     if (!session || (session.user as any).role !== 'ADMIN') {

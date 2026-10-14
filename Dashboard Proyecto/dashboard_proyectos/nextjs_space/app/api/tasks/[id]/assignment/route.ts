@@ -54,8 +54,9 @@ async function ensureResponsable(session: any): Promise<string | null> {
 // POST: Join a task (add self as assignee)
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params: pendingParams }: { params: Promise<{ id: string }> }
 ) {
+  const params = await pendingParams;
   try {
     const session = await getServerSession(authOptions);
     if (!session) {
@@ -111,8 +112,9 @@ export async function POST(
 // DELETE: Leave a task (remove self as assignee)
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params: pendingParams }: { params: Promise<{ id: string }> }
 ) {
+  const params = await pendingParams;
   try {
     const session = await getServerSession(authOptions);
     if (!session) {

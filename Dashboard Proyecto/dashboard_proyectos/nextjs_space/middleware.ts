@@ -15,6 +15,7 @@ export default withAuth(
     const adminRoutes = [
       '/dashboard/usuarios',
       '/api/users',
+      '/api/signup',
     ];
 
     const isAdminRoute = adminRoutes.some((route) => pathname.startsWith(route));

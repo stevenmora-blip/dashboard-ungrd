@@ -8,8 +8,9 @@ export const dynamic = 'force-dynamic';
 // GET - Obtener todas las entradas de daily de una tarea (historial completo)
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params: pendingParams }: { params: Promise<{ id: string }> }
 ) {
+  const params = await pendingParams;
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) {
@@ -67,8 +68,9 @@ export async function GET(
 // POST - Crear una nueva entrada de daily (NUNCA SE BORRA)
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params: pendingParams }: { params: Promise<{ id: string }> }
 ) {
+  const params = await pendingParams;
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) {

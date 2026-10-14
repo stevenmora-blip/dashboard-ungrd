@@ -72,8 +72,9 @@ const applyS = (ws: any, ref: string, s: any) => { if (ws[ref]) ws[ref].s = s; }
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params: pendingParams }: { params: Promise<{ id: string }> }
 ) {
+  const params = await pendingParams;
   try {
     const session = await getServerSession(authOptions);
     if (!session) {

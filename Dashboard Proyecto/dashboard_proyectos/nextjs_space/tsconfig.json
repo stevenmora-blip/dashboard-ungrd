@@ -30,11 +30,12 @@
     }
   },
   "include": [
-    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    ".build/types/**/*.ts",
     ".next/types/**/*.ts",
-    ".build/types/**/*.ts"
+    "next-env.d.ts",
+    ".next-vercel-check/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

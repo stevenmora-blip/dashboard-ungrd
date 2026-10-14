@@ -6,9 +6,9 @@ import { limitPublicIntake } from '@/lib/gestion/rate-limit';
 export const dynamic = 'force-dynamic';
 export async function POST(req: NextRequest) {
   return endpoint(async () => {
-    limitPublicIntake();
     const data = await body(req, publicRequestSchema, 32768);
     const ticket = await prisma.$transaction(async db => {
+      await limitPublicIntake(db);
       const created = await db.requestTicket.create({ data: { ...data, desiredDate: data.desiredDate ? new Date(data.desiredDate) : null } });
       await db.ticketEvent.create({ data: { ticketId: created.id, action: 'received', actorName: data.requesterName, actorEmail: data.requesterEmail, data: { ...data } } });
       return created;

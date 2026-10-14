@@ -559,3 +559,11 @@ model ImpactEvidenceRecipient {
   area Area @relation(fields: [areaId], references: [id])
   @@unique([evidenceId, areaId])
 }
+
+// Cuota global de recepción pública compartida por las instancias del servidor.
+model PublicIntakeBucket {
+  id          String   @id
+  count       Int      @default(0)
+  windowStart DateTime
+  @@index([windowStart])
+}

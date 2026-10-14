@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { api, ApiError } from "@/components/gestion/api";
 import {
@@ -23,11 +24,8 @@ import {
   Status,
   TextItem,
 } from "@/components/gestion/ui";
-export default function RequestDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function RequestDetailPage() {
+  const params = useParams<{ id: string }>();
   const [ticket, setTicket] = useState<TicketDetail | null>(null);
   const [catalogs, setCatalogs] = useState<Catalogs | null>(null);
   const [loading, setLoading] = useState(true);

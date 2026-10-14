@@ -1,10 +1,15 @@
+import type { Prisma } from '@prisma/client';
 import { DomainError } from './domain';
-// One global bucket per service instance: a caller cannot evade it by spoofing
-// forwarded headers. Multi-instance deployments must use a shared durable store.
-const state = globalThis as typeof globalThis & { gestionIntakeLimit?: { windowStart: number; count: number } };
-export function limitPublicIntake() {
-  const now = Date.now();
-  const bucket = state.gestionIntakeLimit ??= { windowStart: now, count: 0 };
-  if (now - bucket.windowStart >= 60000) { bucket.windowStart = now; bucket.count = 0; }
-  if (++bucket.count > 30) throw new DomainError('Límite de recepción alcanzado; reintente en un minuto', 429);
+
+// PostgreSQL shares this quota across serverless instances. Call in the same
+// transaction as intake creation so a rejected request cannot create a ticket.
+export async function limitPublicIntake(db: Prisma.TransactionClient, now = new Date()) {
+  const minute = Math.floor(now.getTime() / 60000);
+  const bucket = await db.publicIntakeBucket.upsert({
+    where: { id: `intake:${minute}` },
+    create: { id: `intake:${minute}`, count: 1, windowStart: new Date(minute * 60000) },
+    update: { count: { increment: 1 } },
+  });
+  if (bucket.count > 30) throw new DomainError('Límite de recepción alcanzado; reintente en un minuto', 429);
+  await db.publicIntakeBucket.deleteMany({ where: { windowStart: { lt: new Date(now.getTime() - 86400000) } } });
 }

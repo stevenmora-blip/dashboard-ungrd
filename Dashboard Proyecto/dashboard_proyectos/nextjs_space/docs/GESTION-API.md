@@ -4,7 +4,7 @@ Todos los campos de texto son texto plano, sin `<`, `>` ni NUL. Fechas civiles `
 
 ## Recepción pública
 
-`POST /api/solicitudes` con `{requesterName,requesterEmail,area,title,problem,expectedResult,beneficiaries,sources,deliverables,acceptanceCriteria,desiredDate?,desiredDateReason?,referenceLinks?:string[]}`. Todas las cadenas sin `?` obligatorias. Si hay fecha deseada requiere motivo. 201 `{number,createdAt}`: no devuelve datos privados ni permite consultar tickets. Formulario `/solicitar`. Límite compartido de 30 intentos/minuto/instancia, no usa XFF. Para varias instancias hace falta un almacén compartido antes de desplegar.
+`POST /api/solicitudes` con `{requesterName,requesterEmail,area,title,problem,expectedResult,beneficiaries,sources,deliverables,acceptanceCriteria,desiredDate?,desiredDateReason?,referenceLinks?:string[]}`. Todas las cadenas sin `?` obligatorias. Si hay fecha deseada requiere motivo. 201 `{number,createdAt}`: no devuelve datos privados ni permite consultar tickets. Formulario `/solicitar`. Cuota global de 30 recepciones confirmadas por minuto civil, compartida entre instancias mediante PostgreSQL, sin usar XFF. Los cuerpos inválidos y las transacciones fallidas no consumen cuota; la recepción y la cuota se confirman juntas.
 
 ## Catálogos y configuración
 

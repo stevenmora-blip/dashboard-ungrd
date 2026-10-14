@@ -22,8 +22,8 @@ El proyecto fue extraído de `Dashboard Proyecto-20261014T183736Z-1-001.zip` den
 ## Límites existentes
 
 - Adjuntos dependen de S3 sin configuración/credenciales: listado de archivos HTTP 500; 84 metadatos de adjuntos restaurados, sin integración de almacenamiento local.
-- Lint de módulos nuevos aprobado mediante `eslint.gestion.config.cjs`; el lint general heredado del ZIP sigue sin configuración.
-- Servidor Next.js de desarrollo; build de producción no ejecutado.
+- Lint de gestión y lint general con reglas de corrección aprobados, 0 errores; una directiva heredada sin uso produce una advertencia.
+- Copia local con servidor de desarrollo. La versión Next.js 15.5.28 también pasó compilación de producción.
 - No se recuperaron datos posteriores a las fechas de los respaldos ni sesiones originales. Asistencia no figura en el respaldo.
 
 Memanto fue consultado desde terminal con `--tool codex`; `MEMORY.md` se conserva como exportación original de continuidad.
@@ -45,7 +45,7 @@ Diseño: `docs/superpowers/specs/2026-10-14-requerimientos-esfuerzo-aporte-desig
 - Concurrencia: un conflicto conserva borradores durante la permanencia en la pantalla. Las tareas con consumos no pueden moverse a otro proyecto ni eliminarse sin resolver su trazabilidad.
 - 15 pruebas unitarias y 5 HTTP/flujo aprobadas. TypeScript y lint de módulos nuevos aprobados; revisiones de cumplimiento y calidad sin hallazgos pendientes. Recorridos de navegador de recepción, conflictos, recursos, porcentajes y enlaces por proyecto aprobados.
 - Tras retirar únicamente registros temporales: 14 proyectos, 198 tareas, 54 usuarios, 39 responsables y 7 auditorías originales. Cero tickets, áreas, consumos, distribuciones, evidencias o aprobadores creados para pruebas permanecen.
-- Pendientes aportados por el usuario: usuarios/roles definitivos y nombres oficiales de las tres subdirecciones. El respaldo contiene cuentas de demostración conservadas. EDAN excluido. S3 y compilación/despliegue de producción siguen pendientes.
+- Pendientes aportados por el usuario: usuarios/roles definitivos y nombres oficiales de las tres subdirecciones. El respaldo contiene cuentas de demostración conservadas. EDAN excluido. S3 sigue pendiente; compilación de producción completada y despliegue Vercel en preparación.
 
 ## Repositorio GitHub — Codex
 
@@ -54,3 +54,13 @@ Destino privado: https://github.com/stevenmora-blip/dashboard-ungrd. Creado medi
 Se excluyen `.local`, `.env`, respaldos, adjuntos, Excel/datos de trabajo, `MEMORY.md`, logs y scripts históricos con credenciales de ejemplo o correcciones puntuales. `.env.example` contiene únicamente campos vacíos y marcadores. La base local permanece aislada; subir el código no despliega el servidor ni restaura datos al clonar.
 
 Publicación verificada: rama `main` sincronizada con `origin/main`; commit inicial de código `c8278b2` comprobado tanto por API como en Chrome. 191 archivos de código/documentación publicados; sin base ni credenciales. Herramienta responsable: Codex.
+
+## Preparación de Vercel/Supabase — Codex
+
+El usuario autorizó despliegue en Vercel y eligió explícitamente la base Supabase `UNGRD_DASHBOARD`, ref `desyqjjxgbrmcwucqbax`, de su organización. Producción comienza vacía: no se migró el respaldo. Se crearon seis identidades reales indicadas por el usuario, Steven como único ADMIN y los demás USER, cada una vinculada a su responsable. Credenciales iniciales únicamente en `.local/accesos-produccion.json` con permisos 600; conexión/secreto únicamente en `.local/production-secrets.json` con permisos 600.
+
+- Schema privado `dashboard` en Supabase: 31 tablas, RLS habilitado en todas, sin permisos USAGE para `anon`/`authenticated` y sin grants de tablas/secuencias para esos roles ni PUBLIC. Backend Prisma por conexión agrupada, sin claves de Supabase en navegador.
+- Next.js actualizado de14.2.28 a15.5.28 según aviso de seguridad oficial de Vercel; rutas y página de detalle adaptadas a params asíncronos. Build genera Prisma antes de compilar.
+- Registro heredado `/api/signup` cerrado a visitantes/usuarios comunes; exige ADMIN activo releído de DB. Cuota pública de30recepciones/minuto compartida mediante PostgreSQL, con rollback junto con el ticket.
+- Build de producción, 15 pruebas unitarias y7 HTTP/flujo/regresiones, TypeScript y lint de módulos nuevos pasan. Prueba de cuota incluye contención paralela en2clientes.
+- Proyecto Vercel previsto: `dashboard-ungrd`, equipo `stevenmora-blips-projects`, root `Dashboard Proyecto/dashboard_proyectos/nextjs_space`. Conexión y publicación pendientes de completar en la sesión de Chrome. No activar Neon ni planes pagos.

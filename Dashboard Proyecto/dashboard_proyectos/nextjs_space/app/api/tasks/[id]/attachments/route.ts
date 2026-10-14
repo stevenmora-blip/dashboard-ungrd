@@ -9,8 +9,9 @@ export const dynamic = 'force-dynamic';
 // GET - Listar archivos de una tarea
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params: pendingParams }: { params: Promise<{ id: string }> }
 ) {
+  const params = await pendingParams;
   try {
     const session = await getServerSession(authOptions);
     if (!session) {
@@ -46,8 +47,9 @@ export async function GET(
 // POST - Registrar un archivo subido
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params: pendingParams }: { params: Promise<{ id: string }> }
 ) {
+  const params = await pendingParams;
   try {
     const session = await getServerSession(authOptions);
     if (!session) {

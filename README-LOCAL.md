@@ -38,11 +38,11 @@ Se retiró la ruta Linux absoluta del generador Prisma y se agregó un lockfile 
 
 Verificados: inicio de sesión del administrador, dashboard con estadísticas y datos, TypeScript (`pnpm exec tsc --noEmit`) y API de proyectos, tareas, usuarios, responsables, actas y carga de trabajo (HTTP 200).
 
-Este arranque usa el servidor de desarrollo de Next.js; no se ejecutó una compilación de producción.
+Este arranque usa el servidor de desarrollo de Next.js. La preparación de Vercel actualiza a Next.js 15.5.28 y pasó una compilación de producción en `.next-vercel-check`.
 
 Se restauraron 84 registros de adjuntos, pero la aplicación original descarga y sube archivos mediante S3. El ZIP no aporta la configuración ni las credenciales de ese servicio: el listado de archivos puede fallar (HTTP 500) y las descargas/subidas no están habilitadas. Los documentos incluidos en el ZIP permanecen en `Dashboard Proyecto/Uploads` y en los archivos de respaldo. No se configuraron servicios externos ni se enviaron notificaciones.
 
-El ZIP no contiene configuración general de ESLint. Se añadió `eslint.gestion.config.cjs` para los módulos nuevos, cuya revisión termina correctamente junto con TypeScript; el lint general heredado sigue sin configuración. Los scripts locales pasan las comprobaciones de sintaxis de Bash y Node.js.
+El ZIP no contenía configuración general de ESLint. Se añadieron `eslint.gestion.config.cjs` para gestión y `eslint.config.cjs` para las fuentes completas con las mismas reglas de corrección; ambas revisiones y TypeScript terminan correctamente. El lint general deja una advertencia heredada por una directiva sin uso. Los scripts locales pasan las comprobaciones de sintaxis de Bash y Node.js.
 
 ## Gestión de requerimientos y esfuerzo
 

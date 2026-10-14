@@ -8,8 +8,9 @@ export const dynamic = 'force-dynamic';
 // GET - Obtener subtareas de una tarea
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params: pendingParams }: { params: Promise<{ id: string }> }
 ) {
+  const params = await pendingParams;
   try {
     const session = await getServerSession(authOptions);
     if (!session) {
@@ -36,8 +37,9 @@ export async function GET(
 // POST - Crear nueva subtarea
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params: pendingParams }: { params: Promise<{ id: string }> }
 ) {
+  const params = await pendingParams;
   try {
     const session = await getServerSession(authOptions);
     if (!session) {
@@ -80,8 +82,9 @@ export async function POST(
 // PATCH - Actualizar subtarea (toggle completado)
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params: pendingParams }: { params: Promise<{ id: string }> }
 ) {
+  const params = await pendingParams;
   try {
     const session = await getServerSession(authOptions);
     if (!session) {
@@ -125,8 +128,9 @@ export async function PATCH(
 // DELETE - Eliminar subtarea
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params: pendingParams }: { params: Promise<{ id: string }> }
 ) {
+  const params = await pendingParams;
   try {
     const session = await getServerSession(authOptions);
     if (!session) {
