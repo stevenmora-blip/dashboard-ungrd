@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 216 33% 97%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+[data-hydration-error] {
+  display: none !important;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.task-row-overdue {
+  @apply bg-red-50 border-l-4 border-l-red-500;
+}
+
+.task-row-high-priority {
+  @apply bg-orange-50;
+}
+
+.status-badge-pendiente {
+  @apply bg-gray-100 text-gray-700;
+}
+
+.status-badge-en_progreso {
+  @apply bg-blue-100 text-blue-700;
+}
+
+.status-badge-completado {
+  @apply bg-green-100 text-green-700;
+}
+
+.status-badge-bloqueado {
+  @apply bg-red-100 text-red-700;
+}
+
+.priority-badge-alta {
+  @apply bg-orange-100 text-orange-700;
+}
+
+.priority-badge-media {
+  @apply bg-yellow-100 text-yellow-700;
+}
+
+.priority-badge-baja {
+  @apply bg-gray-100 text-gray-600;
+}

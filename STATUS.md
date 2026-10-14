@@ -1,0 +1,54 @@
+# STATUS — Dashboard UNGRD
+
+Actualizado por **Codex** el **2026-10-14**, hora de Bogotá.
+
+## Continuar aquí
+
+Aplicación ejecutándose en **http://localhost:3040**, con PostgreSQL propio en **127.0.0.1:55432/dashboard_ungrd**. Inicio: `./start-local.sh`. Acceso local: `.local/acceso.json`. Guía: `README-LOCAL.md`.
+
+El proyecto fue extraído de `Dashboard Proyecto-20261014T183736Z-1-001.zip` dentro de esta carpeta. El usuario autorizó después crear el repositorio privado `stevenmora-blip/dashboard-ungrd` en GitHub; copia local inicializada en la rama `main`.
+
+## Resultado comprobado
+
+- Dependencias instaladas con pnpm; lockfile generado.
+- Cliente Prisma generado para macOS tras retirar la ruta absoluta `/home/ubuntu/...` del schema.
+- Base local creada y respaldo del 26-mar-2026 restaurado en una transacción: 14 proyectos, 198 tareas, 340 subtareas, 376 entradas diarias y 217 registros de progreso.
+- 7 actas y 13 compromisos recuperados del respaldo del 20-mar-2026.
+- Administrador local nuevo agregado; contraseñas originales ausentes del respaldo.
+- Inicio de sesión y visualización del dashboard probados en navegador.
+- TypeScript sin errores; Bash y script de restauración sin errores de sintaxis.
+- API de estadísticas, progreso, equipos, actividad, proyectos, tareas, usuarios, responsables, actas y carga de trabajo responde HTTP 200 con sesión local.
+
+## Límites existentes
+
+- Adjuntos dependen de S3 sin configuración/credenciales: listado de archivos HTTP 500; 84 metadatos de adjuntos restaurados, sin integración de almacenamiento local.
+- Lint de módulos nuevos aprobado mediante `eslint.gestion.config.cjs`; el lint general heredado del ZIP sigue sin configuración.
+- Servidor Next.js de desarrollo; build de producción no ejecutado.
+- No se recuperaron datos posteriores a las fechas de los respaldos ni sesiones originales. Asistencia no figura en el respaldo.
+
+Memanto fue consultado desde terminal con `--tool codex`; `MEMORY.md` se conserva como exportación original de continuidad.
+
+## Nueva evolución solicitada — 2026-10-14, Codex
+
+Solicitados: tickets mediante formulario, responsable de levantamiento y reunión, trazabilidad de aprobación/rechazo, esfuerzo de personas/máquinas/tecnología, cambios de alcance y reportes de aporte a varias subdirecciones/áreas con reconocimiento del equipo productor.
+
+El usuario compartirá la lista real de usuarios después. EDAN queda fuera por indicación expresa. Se conservó la lista de usuarios y no se habilitaron aprobadores ni nombres de áreas automáticamente.
+
+Diseño: `docs/superpowers/specs/2026-10-14-requerimientos-esfuerzo-aporte-design.md`, aprobado por el usuario. Implementación local terminada y verificada según `docs/superpowers/plans/2026-10-14-requerimientos-esfuerzo-aporte.md`. Respaldo anterior a los cambios: `.local/backups/antes-requerimientos-20261014.dump`. La publicación privada de código se autorizó después de esta implementación.
+
+## Entrega funcional verificada — Codex
+
+- `/solicitar`: recepción pública y comprobante de número/fecha, sin consulta de información interna.
+- `/dashboard/requerimientos`: bandeja filtrada, responsable, reuniones, alcance, decisiones, versiones, cambios y reporte imprimible. Los enlaces desde un proyecto aplican su filtro al abrir.
+- `/dashboard/esfuerzo`: horas de personas y máquinas, tecnología/recursos, cantidades, tarifas y monedas opcionales, plan inicial/vigente frente a consumo real.
+- `/dashboard/aporte`: catálogo de áreas, distribución declarada de beneficio, evidencia observada con fuente/productor/corte y subtotales por área; total institucional sin duplicación de proyectos.
+- Concurrencia: un conflicto conserva borradores durante la permanencia en la pantalla. Las tareas con consumos no pueden moverse a otro proyecto ni eliminarse sin resolver su trazabilidad.
+- 15 pruebas unitarias y 5 HTTP/flujo aprobadas. TypeScript y lint de módulos nuevos aprobados; revisiones de cumplimiento y calidad sin hallazgos pendientes. Recorridos de navegador de recepción, conflictos, recursos, porcentajes y enlaces por proyecto aprobados.
+- Tras retirar únicamente registros temporales: 14 proyectos, 198 tareas, 54 usuarios, 39 responsables y 7 auditorías originales. Cero tickets, áreas, consumos, distribuciones, evidencias o aprobadores creados para pruebas permanecen.
+- Pendientes aportados por el usuario: usuarios/roles definitivos y nombres oficiales de las tres subdirecciones. El respaldo contiene cuentas de demostración conservadas. EDAN excluido. S3 y compilación/despliegue de producción siguen pendientes.
+
+## Repositorio GitHub — Codex
+
+Destino privado: https://github.com/stevenmora-blip/dashboard-ungrd. Creado mediante la sesión del usuario en Chrome por petición explícita. La raíz del proyecto es el repositorio local; aplicación y rutas originales se conservan.
+
+Se excluyen `.local`, `.env`, respaldos, adjuntos, Excel/datos de trabajo, `MEMORY.md`, logs y scripts históricos con credenciales de ejemplo o correcciones puntuales. `.env.example` contiene únicamente campos vacíos y marcadores. La base local permanece aislada; subir el código no despliega el servidor ni restaura datos al clonar.

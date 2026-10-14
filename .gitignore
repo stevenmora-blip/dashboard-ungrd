@@ -1,0 +1,31 @@
+.local/
+.pnpm-store/
+node_modules/
+.next/
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+
+# Datos privados y artefactos locales
+MEMORY.md
+.playwright-mcp/
+.DS_Store
+**/Uploads/
+**/uploads/
+**/data/
+**/backup*
+*.dump
+*.sql
+*.tar.gz
+*.zip
+*.log
+*.xlsx
+*.docx
+*.pdf
+/Dashboard Proyecto/data_structure_analysis.json
+/Dashboard Proyecto/resumen_analisis.md
+# Utilidades históricas con identidades, contraseñas de ejemplo y cambios puntuales
+/Dashboard Proyecto/dashboard_proyectos/nextjs_space/scripts/*
+!/Dashboard Proyecto/dashboard_proyectos/nextjs_space/scripts/restore-local.cjs
+/Dashboard Proyecto/dashboard_proyectos/nextjs_space/public/preview-dashboard-ma.html

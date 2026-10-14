@@ -1,0 +1,561 @@
+generator client {
+    provider = "prisma-client-js"
+    binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String            @id @default(cuid())
+  email         String            @unique
+  password      String?
+  name          String?
+  image         String?
+  role          UserRole          @default(USER)
+  isActive      Boolean           @default(true)
+  responsableId String?           @unique
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  emailVerified DateTime?
+  accounts      Account[]
+  dailyEntries  DailyEntry[]
+  sessions      Session[]
+  progressLogs  TaskProgressLog[]
+  responsable   Responsable?      @relation(fields: [responsableId], references: [id])
+  attendance    AttendanceEntry[]
+  canApproveRequests Boolean @default(false)
+  ownedTickets RequestTicket[] @relation("TicketOwner")
+  approvingTickets RequestTicket[] @relation("TicketApprover")
+  resourceConsumptions ResourceConsumption[] @relation("ResourcePerson")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Team {
+  id          String        @id @default(cuid())
+  name        String        @unique
+  description String?
+  color       String        @default("#1A365D")
+  isActive    Boolean       @default(true)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  projects    Project[]
+  members     Responsable[]
+}
+
+model Project {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  description  String?
+  color        String   @default("#1A365D")
+  isActive     Boolean  @default(true)
+  teamId       String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  expectativas String?
+  liderSNI     String?
+  liderUNGRD   String?
+  prioridad    String?
+  subdireccion String?
+  tecnologias  String[]
+  team                Team?               @relation(fields: [teamId], references: [id])
+  tasks               Task[]
+  projectMemberships  ProjectMembership[]
+  requestTickets RequestTicket[]
+  resourceConsumptions ResourceConsumption[]
+  benefitDistributions BenefitDistribution[]
+  impactEvidence ImpactEvidence[]
+}
+
+model ProjectMembership {
+  id            String      @id @default(cuid())
+  responsableId String
+  projectId     String
+  responsable   Responsable @relation(fields: [responsableId], references: [id])
+  project       Project     @relation(fields: [projectId], references: [id])
+  createdAt     DateTime    @default(now())
+
+  @@unique([responsableId, projectId])
+}
+
+model Responsable {
+  id              String           @id @default(cuid())
+  name            String           @unique
+  email           String?
+  isActive        Boolean          @default(true)
+  teamId          String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  team               Team?               @relation(fields: [teamId], references: [id])
+  taskAssignments    TaskAssignment[]
+  projectMemberships ProjectMembership[]
+  user               User?
+}
+
+model Task {
+  id                    String            @id @default(cuid())
+  name                  String
+  description           String?
+  entregable            String?
+  projectId             String
+  status                TaskStatus        @default(PENDIENTE)
+  plannedWeeks          String?
+  progress              Int               @default(0)
+  comments              String?
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  dailyFuturo           String?
+  dailyPresente         String?
+  descripcionEntregable String?
+  impedimento           String?
+  orden                 Int               @default(0)
+  dailyEntries          DailyEntry[]
+  subTasks              SubTask[]
+  project               Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assignments           TaskAssignment[]
+  attachments           TaskAttachment[]
+  progressLogs          TaskProgressLog[]
+  resourceConsumptions  ResourceConsumption[]
+
+  @@index([status])
+  @@index([projectId])
+  @@index([orden])
+  @@unique([id, projectId])
+}
+
+model TaskAssignment {
+  id            String      @id @default(cuid())
+  taskId        String
+  responsableId String
+  createdAt     DateTime    @default(now())
+  responsable   Responsable @relation(fields: [responsableId], references: [id], onDelete: Cascade)
+  task          Task        @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@unique([taskId, responsableId])
+  @@index([responsableId])
+}
+
+model TaskAttachment {
+  id               String   @id @default(cuid())
+  taskId           String
+  fileName         String
+  fileUrl          String
+  cloudStoragePath String
+  fileSize         Int?
+  mimeType         String?
+  uploadedById     String?
+  actaId           String?
+  isDeleted        Boolean  @default(false)
+  deletedAt        DateTime?
+  deletedByName    String?
+  deletedByEmail   String?
+  createdAt        DateTime @default(now())
+  task             Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  acta             Acta?    @relation(fields: [actaId], references: [id])
+
+  @@index([taskId])
+  @@index([actaId])
+  @@index([isDeleted])
+}
+
+model TaskProgressLog {
+  id          String      @id @default(cuid())
+  taskId      String
+  userId      String
+  oldProgress Int
+  newProgress Int
+  oldStatus   TaskStatus?
+  newStatus   TaskStatus?
+  comment     String?
+  createdAt   DateTime    @default(now())
+  task        Task        @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id])
+
+  @@index([taskId])
+  @@index([userId])
+}
+
+model DailyEntry {
+  id            String   @id @default(cuid())
+  taskId        String
+  userId        String
+  userName      String?
+  impedimento   String?
+  dailyPresente String?
+  dailyFuturo   String?
+  fecha         DateTime @default(now())
+  createdAt     DateTime @default(now())
+  task          Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id])
+
+  @@index([taskId])
+  @@index([userId])
+  @@index([fecha])
+}
+
+model SubTask {
+  id          String    @id @default(cuid())
+  taskId      String
+  name        String
+  description String?
+  isCompleted Boolean   @default(false)
+  completedAt DateTime?
+  completedBy String?
+  orden       Int       @default(0)
+  createdBy   String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  task        Task      @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@index([isCompleted])
+}
+
+model Acta {
+  id               String           @id @default(cuid())
+  numero           String           @unique
+  area             String
+  fecha            DateTime
+  proyecto         String
+  descripcion      String?
+  responsables     String
+  estado           ActaStatus       @default(ACTIVA)
+  fechaCierre      DateTime?
+  archivoPdf       String?
+  cloudStoragePath String?
+  observaciones    String?
+  createdById      String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  compromisos      Compromiso[]
+  attachments      TaskAttachment[]
+
+  @@index([estado])
+  @@index([fecha])
+  @@index([area])
+}
+
+model Compromiso {
+  id                String    @id @default(cuid())
+  actaId            String
+  descripcion       String
+  responsable       String
+  fechaLimite       DateTime?
+  cumplido          Boolean   @default(false)
+  fechaCumplimiento DateTime?
+  observaciones     String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  acta              Acta      @relation(fields: [actaId], references: [id], onDelete: Cascade)
+
+  @@index([actaId])
+  @@index([cumplido])
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum TaskStatus {
+  PENDIENTE
+  EN_PROGRESO
+  COMPLETADO
+}
+
+enum ActaStatus {
+  ACTIVA
+  CERRADA
+}
+
+model AttendanceEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  fecha     DateTime @db.Date
+  manana    Boolean  @default(false)
+  tarde     Boolean  @default(false)
+  nota      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, fecha])
+  @@index([fecha])
+  @@index([userId])
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  action      String   // CREAR, MODIFICAR, ELIMINAR
+  entity      String   // Task, Project, etc.
+  entityId    String?
+  entityName  String?
+  details     String?  // JSON string with change details
+  userId      String
+  userName    String
+  userEmail   String
+  createdAt   DateTime @default(now())
+
+  @@index([entity, entityId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+
+// Gestión: additive records; historic scope, events, and benefit versions are append-only in API.
+enum RequestStatus {
+  RECIBIDO
+  EN_LEVANTAMIENTO
+  PENDIENTE_APROBACION
+  APROBADO
+  EN_EJECUCION
+  ENTREGADO
+  CERRADO
+  RECHAZADO
+  CANCELADO
+}
+enum ResourceKind {
+  PERSONA
+  MAQUINA
+  TECNOLOGIA
+  OTRO
+}
+enum ScopeChangeStatus {
+  PENDIENTE
+  APROBADO
+  RECHAZADO
+}
+model Area {
+  id String @id @default(cuid())
+  name String @unique
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  beneficiaries ProjectBeneficiary[]
+  evidenceRecipients ImpactEvidenceRecipient[]
+}
+model RequestTicket {
+  id String @id @default(cuid())
+  number Int @unique @default(autoincrement())
+  requesterName String
+  requesterEmail String
+  area String
+  title String
+  problem String
+  expectedResult String
+  beneficiaries String
+  sources String
+  deliverables String
+  acceptanceCriteria String
+  desiredDate DateTime? @db.Date
+  desiredDateReason String?
+  referenceLinks String[]
+  status RequestStatus @default(RECIBIDO)
+  ownerId String?
+  approverId String?
+  projectId String?
+  currentScopeVersionId String?
+  baselineScopeVersionId String?
+  submittedScopeVersionId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  owner User? @relation("TicketOwner", fields: [ownerId], references: [id])
+  approver User? @relation("TicketApprover", fields: [approverId], references: [id])
+  project Project? @relation(fields: [projectId], references: [id])
+  events TicketEvent[]
+  meetings TicketMeeting[]
+  scopeVersions ScopeVersion[]
+  decisions ApprovalDecision[]
+  scopeChanges ScopeChange[]
+  resourceConsumptions ResourceConsumption[]
+  @@index([ownerId, status])
+  @@index([approverId, status])
+  @@index([projectId])
+}
+model TicketEvent {
+  id String @id @default(cuid())
+  ticketId String
+  action String
+  actorId String?
+  actorName String
+  actorEmail String?
+  data Json
+  createdAt DateTime @default(now())
+  ticket RequestTicket @relation(fields: [ticketId], references: [id])
+  @@index([ticketId, createdAt])
+}
+model TicketMeeting {
+  id String @id @default(cuid())
+  ticketId String
+  heldAt DateTime
+  participants String
+  summary String
+  clarifiedNeeds String
+  agreements String
+  evidenceLinks String[]
+  recordedById String
+  recordedByName String
+  createdAt DateTime @default(now())
+  ticket RequestTicket @relation(fields: [ticketId], references: [id])
+}
+model ScopeVersion {
+  id String @id @default(cuid())
+  ticketId String
+  version Int
+  scope String
+  deliverables String
+  acceptanceCriteria String
+  laborHours Float
+  machineHours Float
+  resourceNotes String
+  proposedDate DateTime @db.Date
+  createdById String
+  createdByName String
+  createdAt DateTime @default(now())
+  ticket RequestTicket @relation(fields: [ticketId], references: [id])
+  decisions ApprovalDecision[]
+  @@unique([ticketId, version])
+}
+model ApprovalDecision {
+  id String @id @default(cuid())
+  ticketId String
+  scopeVersionId String
+  changeId String?
+  decision String
+  reason String
+  actorId String
+  actorName String
+  actorEmail String
+  createdAt DateTime @default(now())
+  ticket RequestTicket @relation(fields: [ticketId], references: [id])
+  scopeVersion ScopeVersion @relation(fields: [scopeVersionId], references: [id])
+  change ScopeChange? @relation(fields: [changeId], references: [id])
+}
+model ScopeChange {
+  id String @id @default(cuid())
+  ticketId String
+  baseScopeVersionId String
+  status ScopeChangeStatus @default(PENDIENTE)
+  additions String
+  reason String
+  requestedBy String
+  additionalLaborHours Float
+  additionalMachineHours Float
+  resourceNotes String
+  proposedDate DateTime @db.Date
+  createdById String
+  createdByName String
+  createdAt DateTime @default(now())
+  resolvedAt DateTime?
+  resultingScopeVersionId String?
+  ticket RequestTicket @relation(fields: [ticketId], references: [id])
+  decisions ApprovalDecision[]
+}
+model ResourceConsumption {
+  id String @id @default(cuid())
+  projectId String
+  ticketId String?
+  taskId String?
+  personId String?
+  kind ResourceKind
+  resourceName String?
+  quantity Float
+  unit String
+  unitRate Float?
+  currency String?
+  day DateTime @db.Date
+  description String
+  recordedById String
+  recordedByName String
+  createdAt DateTime @default(now())
+  project Project @relation(fields: [projectId], references: [id])
+  ticket RequestTicket? @relation(fields: [ticketId], references: [id])
+  task Task? @relation(fields: [taskId, projectId], references: [id, projectId], onDelete: Restrict, onUpdate: Restrict)
+  person User? @relation("ResourcePerson", fields: [personId], references: [id])
+  @@index([projectId, day])
+  @@index([ticketId])
+}
+model BenefitDistribution {
+  id String @id @default(cuid())
+  projectId String
+  version Int
+  assessorId String
+  assessorName String
+  reason String
+  assessedAt DateTime @db.Date
+  createdAt DateTime @default(now())
+  project Project @relation(fields: [projectId], references: [id])
+  beneficiaries ProjectBeneficiary[]
+  @@unique([projectId, version])
+}
+model ProjectBeneficiary {
+  id String @id @default(cuid())
+  distributionId String
+  areaId String
+  percent Float
+  distribution BenefitDistribution @relation(fields: [distributionId], references: [id])
+  area Area @relation(fields: [areaId], references: [id])
+  @@unique([distributionId, areaId])
+}
+model ImpactEvidence {
+  id String @id @default(cuid())
+  projectId String
+  title String
+  producerTeam String
+  technicalResponsible String
+  source String
+  cutoffDate DateTime @db.Date
+  validationResponsible String?
+  url String?
+  description String
+  result String
+  recordedById String
+  recordedByName String
+  createdAt DateTime @default(now())
+  project Project @relation(fields: [projectId], references: [id])
+  recipients ImpactEvidenceRecipient[]
+  @@index([projectId, cutoffDate])
+}
+model ImpactEvidenceRecipient {
+  id String @id @default(cuid())
+  evidenceId String
+  areaId String
+  evidence ImpactEvidence @relation(fields: [evidenceId], references: [id])
+  area Area @relation(fields: [areaId], references: [id])
+  @@unique([evidenceId, areaId])
+}
