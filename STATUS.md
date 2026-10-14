@@ -4,6 +4,8 @@ Actualizado por **Codex** el **2026-10-14**, hora de Bogotá.
 
 ## Continuar aquí
 
+Producción publicada: **https://dashboard-ungrd-sand.vercel.app**, formulario **https://dashboard-ungrd-sand.vercel.app/solicitar**. Credenciales privadas: `.local/accesos-produccion.json`. Steven ADMIN y cinco USER reales; sin datos históricos. Operación: `docs/DEPLOYMENT.md`.
+
 Aplicación ejecutándose en **http://localhost:3040**, con PostgreSQL propio en **127.0.0.1:55432/dashboard_ungrd**. Inicio: `./start-local.sh`. Acceso local: `.local/acceso.json`. Guía: `README-LOCAL.md`.
 
 El proyecto fue extraído de `Dashboard Proyecto-20261014T183736Z-1-001.zip` dentro de esta carpeta. El usuario autorizó después crear el repositorio privado `stevenmora-blip/dashboard-ungrd` en GitHub; copia local inicializada en la rama `main`.
@@ -45,7 +47,7 @@ Diseño: `docs/superpowers/specs/2026-10-14-requerimientos-esfuerzo-aporte-desig
 - Concurrencia: un conflicto conserva borradores durante la permanencia en la pantalla. Las tareas con consumos no pueden moverse a otro proyecto ni eliminarse sin resolver su trazabilidad.
 - 15 pruebas unitarias y 5 HTTP/flujo aprobadas. TypeScript y lint de módulos nuevos aprobados; revisiones de cumplimiento y calidad sin hallazgos pendientes. Recorridos de navegador de recepción, conflictos, recursos, porcentajes y enlaces por proyecto aprobados.
 - Tras retirar únicamente registros temporales: 14 proyectos, 198 tareas, 54 usuarios, 39 responsables y 7 auditorías originales. Cero tickets, áreas, consumos, distribuciones, evidencias o aprobadores creados para pruebas permanecen.
-- Pendientes aportados por el usuario: usuarios/roles definitivos y nombres oficiales de las tres subdirecciones. El respaldo contiene cuentas de demostración conservadas. EDAN excluido. S3 sigue pendiente; compilación de producción completada y despliegue Vercel en preparación.
+- Pendientes aportados por el usuario: nombres oficiales de las tres subdirecciones y designación de aprobadores. Usuarios/roles definitivos ya configurados en producción. El respaldo local conserva sus cuentas originales. EDAN excluido. S3 sigue pendiente; producción Vercel publicada y verificada.
 
 ## Repositorio GitHub — Codex
 
@@ -63,8 +65,17 @@ El usuario autorizó despliegue en Vercel y eligió explícitamente la base Supa
 - Next.js actualizado de14.2.28 a15.5.28 según aviso de seguridad oficial de Vercel; rutas y página de detalle adaptadas a params asíncronos. Build genera Prisma antes de compilar.
 - Registro heredado `/api/signup` cerrado a visitantes/usuarios comunes; exige ADMIN activo releído de DB. Cuota pública de30recepciones/minuto compartida mediante PostgreSQL, con rollback junto con el ticket.
 - Build de producción, 15 pruebas unitarias y7 HTTP/flujo/regresiones, TypeScript y lint de módulos nuevos pasan. Prueba de cuota incluye contención paralela en2clientes.
-- Proyecto Vercel previsto: `dashboard-ungrd`, equipo `stevenmora-blips-projects`, root `dashboard-proyecto/dashboard_proyectos/nextjs_space`. Conexión y publicación pendientes de completar en la sesión de Chrome. No activar Neon ni planes pagos.
+- Proyecto Vercel: `dashboard-ungrd`, equipo `stevenmora-blips-projects`, root `dashboard-proyecto/dashboard_proyectos/nextjs_space`. Conexión y publicación completadas en Chrome. Sin Neon ni contratación de planes pagos.
 
-Primer despliegue Vercel compiló pero falló en empaquetado por la raíz padre heredada de outputFileTracingRoot. Se retiró el override: build local nuevo aprobado y manifiesto con raíz de aplicación/relativeAppDir vacío. Dominio confirmado por Vercel: `https://dashboard-ungrd-sand.vercel.app`; NEXTAUTH_URL ajustado al dominio real. Segundo despliegue pendiente de verificar.
+Primer despliegue Vercel compiló pero falló en empaquetado por la raíz padre heredada de outputFileTracingRoot. Se retiró el override: build local nuevo aprobado y manifiesto con raíz de aplicación/relativeAppDir vacío. Dominio confirmado por Vercel: `https://dashboard-ungrd-sand.vercel.app`; NEXTAUTH_URL ajustado al dominio real.
 
-Segundo despliegue superó el empaquetado y fue rechazado por el espacio de la carpeta extraída: nombre de función `Dashboard Proyecto/.../___next_launcher.cjs`. Se normalizó a `dashboard-proyecto` sin alterar contenido funcional ni perder respaldos, se actualizaron nueve referencias de rutas y Root Directory en Vercel. Build de producción y22 pruebas vuelven a pasar en el directorio nuevo. Publicación corregida pendiente de verificar.
+Segundo despliegue superó el empaquetado y fue rechazado por el espacio de la carpeta extraída: nombre de función `Dashboard Proyecto/.../___next_launcher.cjs`. Se normalizó a `dashboard-proyecto` sin alterar contenido funcional ni perder respaldos, se actualizaron nueve referencias de rutas y Root Directory en Vercel. Build de producción y22 pruebas vuelven a pasar en el directorio nuevo. La publicación corregida quedó Ready y verificada.
+
+## Producción verificada — Codex, 14-oct-2026
+
+- Vercel Ready para `e26460c`, y versión final `3f9867d` en `dpl_89MMczyK3fihmKyoGoJf6NUQjgh2`; dominio HTTPS `https://dashboard-ungrd-sand.vercel.app` asignado. NEXTAUTH_URL coincide con el dominio real.
+- Inicio de sesión de las seis cuentas reales y sus roles comprobados por HTTP. APIs de proyectos/tareas, estadísticas, tickets, catálogos, esfuerzo y aporte HTTP200 con sesión; configuración200ADMIN/403USER, rutas privadas401 sin sesión y signup restringido. Formulario público200 y validación de cuerpo vacío400.
+- Navegador: Steven ADMIN ingresó; dashboard0proyectos/0tareas/6responsables, módulos de requerimientos, consumo y aporte sin errores. Aviso de enlace local limitado a localhost; formulario público accesible y compartible.
+- Base de producción:6usuarios,0proyectos,0tareas,0tickets,0áreas. No se enviaron correos ni se crearon datos de prueba.31/31tablas con RLS; anon/authenticated sin USAGE en schema dashboard.
+- Accesos y secretos conservados únicamente en `.local`, permisos600. Evidencia visual privada: `.local/despliegue-vercel.png`. El servidor local continúa disponible en3040.
+- Pendientes funcionales: S3 para adjuntos, nombres oficiales de áreas y aprobadores. EDAN permanece fuera del alcance.
